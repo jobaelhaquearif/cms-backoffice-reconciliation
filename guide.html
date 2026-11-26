@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOP & User Guide - CMS vs Back Office Reconciliation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-slate-900 text-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <span class="text-lg font-bold tracking-wide text-emerald-400">CMS vs Back Office</span>
+                <span class="text-xs bg-slate-700 text-slate-200 px-2 py-0.5 rounded ml-2">v1.0.0</span>
+            </div>
+            <div class="space-x-4 text-sm">
+                <a href="index.html" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-md font-medium transition">
+                    &larr; Back to Reconciliation Tool
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- Header Banner -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h1 class="text-2xl font-bold text-slate-900 mb-2">Reconciliation Standard Operating Procedure (SOP) & Reference</h1>
+            <p class="text-slate-600 text-sm leading-relaxed">
+                This guide provides step-by-step operational instructions, status definitions, and Excel output specifications for reconciling 
+                <strong>CMS (Master)</strong> records against <strong>Back Office</strong> transaction logs. All processing executes locally inside your browser for 100% data privacy.
+            </p>
+        </section>
+
+        <!-- Workflow Steps -->
+        <section class="grid md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Step 01</span>
+                <h2 class="font-semibold text-base mt-1 mb-2">Upload Source Files</h2>
+                <p class="text-xs text-slate-600">Upload the master CMS Excel file and the Back Office export separately (`.xlsx`, `.xls`, or `.csv`).</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Step 02</span>
+                <h2 class="font-semibold text-base mt-1 mb-2">Map Columns & Filter</h2>
+                <p class="text-xs text-slate-600">Select the active worksheet, header row index, Key (Approval Code), Date, and Amount columns. Apply optional scope filters.</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Step 03</span>
+                <h2 class="font-semibold text-base mt-1 mb-2">Configure Tolerance</h2>
+                <p class="text-xs text-slate-600">Set the date-mismatch window (default: <strong>60 minutes</strong>) to automatically handle midnight cut-off posting delays.</p>
+            </div>
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Step 04</span>
+                <h2 class="font-semibold text-base mt-1 mb-2">Verify & Export</h2>
+                <p class="text-xs text-slate-600">Confirm the row-count integrity check (Output Rows = CMS Rows) and download the color-coded multi-sheet Excel report.</p>
+            </div>
+        </section>
+
+        <!-- Status Definitions Table -->
+        <section class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 bg-slate-100">
+                <h2 class="font-bold text-slate-800">Reconciliation Status Matrix</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-200 text-slate-600 bg-slate-50">
+                            <th class="py-3 px-6 font-semibold">Status Code</th>
+                            <th class="py-3 px-6 font-semibold">Condition / Rule</th>
+                            <th class="py-3 px-6 font-semibold">Recommended Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200">
+                        <tr>
+                            <td class="py-3 px-6"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">MATCHED</span></td>
+                            <td class="py-3 px-6 text-slate-600">Key, calendar date, and transaction amount match identically.</td>
+                            <td class="py-3 px-6 text-slate-600">No action required. Cleared for settlement.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-800">CMS_ONLY</span></td>
+                            <td class="py-3 px-6 text-slate-600">Present in CMS master file but missing in Back Office logs.</td>
+                            <td class="py-3 px-6 text-slate-600">Investigate missing settlement or raise dispute ticket with evidence.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-800">BACKOFFICE_ONLY</span></td>
+                            <td class="py-3 px-6 text-slate-600">Recorded in Back Office but absent from CMS master file.</td>
+                            <td class="py-3 px-6 text-slate-600">Verify off-system adjustment, reversal, or unposted entry.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-orange-100 text-orange-800">AMOUNT_MISMATCH</span></td>
+                            <td class="py-3 px-6 text-slate-600">Key and date match, but transaction amounts differ.</td>
+                            <td class="py-3 px-6 text-slate-600">Check partial refunds, fee deductions, or chargeback adjustments.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800">DATE_MISMATCH</span></td>
+                            <td class="py-3 px-6 text-slate-600">Key and amount match, but timestamp exceeds tolerance window.</td>
+                            <td class="py-3 px-6 text-slate-600">Validate next-day T+1 batch settlement cut-off.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800">DUPLICATE</span></td>
+                            <td class="py-3 px-6 text-slate-600">Multiple occurrences of the same unique key detected.</td>
+                            <td class="py-3 px-6 text-slate-600">Audit for double-posting or retry duplication.</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-6"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-200 text-slate-800">REVIEW_REQUIRED</span></td>
+                            <td class="py-3 px-6 text-slate-600">Ambiguous key/amount combination requiring manual verification.</td>
+                            <td class="py-3 px-6 text-slate-600">Perform manual ledger trace before closing batch.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Output Sheets Reference -->
+        <section class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h2 class="font-bold text-slate-800 mb-3">Generated Excel Workbook Structure (9 Sheets)</h2>
+            <div class="grid sm:grid-cols-3 gap-2 text-xs font-mono text-slate-700">
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">1. RECONCILIATION_SUMMARY</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">2. CMS_MISSING_IN_BACKOFFICE</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">3. BACKOFFICE_ONLY</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">4. MATCHED_TRANSACTIONS</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">5. AMOUNT_MISMATCH</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">6. DATE_MISMATCH</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">7. DUPLICATES</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">8. REVIEW_REQUIRED</div>
+                <div class="p-2.5 bg-slate-100 rounded border border-slate-200">9. FULL_RECONCILIATION</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto px-4 py-6 text-center text-xs text-slate-500 border-t border-slate-200 mt-8">
+        <p>CMS vs Back Office Reconciliation Tool &bull; Browser-Only Local Processing (SheetJS &amp; ExcelJS)</p>
+        <p class="mt-1">Original Design By <a href="https://daudbd.com" target="_blank" class="text-emerald-600 hover:underline">DaudBD.com</a></p>
+    </footer>
+
+</body>
+</html>
